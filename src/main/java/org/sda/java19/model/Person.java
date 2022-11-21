@@ -19,7 +19,7 @@ package org.sda.java19.model;
  */
 
 
-// better use lombok
+// better use lombok: allargsconstructor, getter, setter, tostring, noargsconstructor
 public class Person {
 
     private String name;
@@ -59,4 +59,5 @@ public class Person {
                 ", age=" + age +
                 '}';
     }
+
 }

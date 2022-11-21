@@ -41,6 +41,9 @@ public class JavaDeveloper extends Developer {
     }
 
     // Overload method from the Person class in JavaDeveloper class to accept additional parameters.
+    // It can be also in Person class
+    // Method overwriting - Method name and method parameter are same
+    // Method overloading - same method name, but different number of parameters
     public void setName(String firstName, String lastName) {
         super.setName(firstName.concat(lastName));
     }
