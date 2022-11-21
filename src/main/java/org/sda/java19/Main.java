@@ -18,6 +18,8 @@ public class Main {
         javaDeveloper.setEmail("kristeltalimaa@gmail.com");
         javaDeveloper.setCompany("Postimees");
         javaDeveloper.setWorkExperience(3);
+
+        // c.
         System.out.println(javaDeveloper);
 
         // Using an object of type JavaDeveloper call a method that is defined in Developer.
