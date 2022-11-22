@@ -1,5 +1,6 @@
 package org.sda.java19.services;
 
+import org.sda.java19.exceptions.WarehouseNotFoundException;
 import org.sda.java19.models.Warehouse;
 
 /**
@@ -41,7 +42,7 @@ public interface WarehouseService {
      *
      * @return Warehouse
      */
-    Warehouse getWarehouse();
+    Warehouse getWarehouse() throws WarehouseNotFoundException;
 
 }
 

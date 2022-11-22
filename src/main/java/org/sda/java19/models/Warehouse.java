@@ -1,12 +1,6 @@
 package org.sda.java19.models;
 
-import lombok.*;
-
-/**
- * Warehouse model
- *
- * @author Kristel Talimaa
- */
+import lombok.Data;
 
 import java.util.List;
 

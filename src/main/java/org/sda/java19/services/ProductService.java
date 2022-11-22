@@ -1,5 +1,6 @@
 package org.sda.java19.services;
 
+import org.sda.java19.exceptions.WarehouseNotFoundException;
 import org.sda.java19.models.Product;
 import org.sda.java19.models.ProductCategory;
 
@@ -52,7 +53,7 @@ public interface ProductService {
      * @return list of products
      */
 
-    List<Product> getAllProductsByProductCategory(ProductCategory productCategory);
+    List<Product> getAllProductsByProductCategory(ProductCategory productCategory) throws WarehouseNotFoundException;
 
     /**
      * To get all products from the warehouse
@@ -60,7 +61,7 @@ public interface ProductService {
      * @return list of products
      */
 
-    List<Product> getAllProducts(); // All products
+    List<Product> getAllProducts() throws WarehouseNotFoundException; // All products
 
 
 }

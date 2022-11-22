@@ -1,5 +1,18 @@
 package org.sda.java19;
 
+import org.sda.java19.models.Product;
+import org.sda.java19.models.ProductCategory;
+import org.sda.java19.models.Warehouse;
+import org.sda.java19.services.ProductService;
+import org.sda.java19.services.WarehouseService;
+import org.sda.java19.services.implementation.ProductServiceImpl;
+import org.sda.java19.services.implementation.WarehouseServiceImpl;
+import org.sda.java19.util.Data;
+
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Scanner;
+
 /**
  * Warehouse
  * a. User should be able to: add, display all the details, update, delete an item
@@ -28,16 +41,90 @@ package org.sda.java19;
 
 // list for products, 10 pc min
 // scanner
-// menu, add, disp
+// menu, add, display
 
 
 public class Main {
+
     public static void main(String[] args) {
 
+        WarehouseService warehouseService = new WarehouseServiceImpl();
+        Scanner scanner = new Scanner(System.in);
+
+        // Initializing the warehouse
+        Warehouse warehouse = new Warehouse();
+        warehouse.setWarehouseName("ABC E-POOD");
+        warehouse.setAddress("Tallinn");
+        warehouse.setActive(true);
+        warehouse.setProducts(Data.getInitialProducts());
+
+        warehouseService.addWarehouse(warehouse); // Adds new warehouse
+
+        productOperations();
+
+    }
 
 
+    private static void productOperations() {
+        ProductService productService = new ProductServiceImpl();
+        Scanner scanner = new Scanner(System.in);
 
+        int option = getOption();
+
+        // here come switch case
+
+        switch (option) {
+            case 0: // add a product
+                productService.addProduct(addProduct());
+                break;
+            case 1: // update a product
+
+
+        }
+
+    }
+
+
+    private static int getOption() {
+
+        Scanner scanner = new Scanner(System.in);
+        //      scanner what displays all: add, update, delete etc
+        return 0;
+
+    }
+
+    private static Product addProduct() {
+
+        // add all values
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the details of the product:");
+        System.out.println("Product name:");
+        String productName = scanner.next();
+        System.out.println("Product price:");
+        float price = scanner.nextFloat();
+        System.out.println("Choose a product category: " + Arrays.toString(ProductCategory.values()));
+        ProductCategory productCategory = ProductCategory.valueOf(scanner.next()); // currency same way
+
+
+        Product product = new Product();
+        product.setName(productName);
+        product.setPrice(BigDecimal.valueOf(price));
+        product.setProductCategory(productCategory);
+
+        return product;
 
 
     }
+
+    /*
+
+    private static Product updateProduct() {
+        //Need to display all the products and then ask user to which product to update.
+
+
+    }
+
+
+     */
+
 }
