@@ -11,10 +11,8 @@ package org.sda.java19;
  *
  * @author Kristel Talimaa
  */
-public class Main {
-    public static void main(String[] args) {
 
-        /*
+/*
         1. Create classes: Warehouse (classes), Product (classes), ProductCategory (enum), Currency (add as enum) - models package
         Composition -> class inside the class
         2. Warehouse should have fields like: name, List of Product, address, isActive (office)
@@ -27,6 +25,12 @@ public class Main {
         8. For each operation, call service method and do the operation
 
          */
+
+
+public class Main {
+    public static void main(String[] args) {
+
+
 
 
 
