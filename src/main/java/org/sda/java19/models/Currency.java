@@ -1,17 +1,13 @@
 package org.sda.java19.models;
 
-import lombok.*;
-
-@AllArgsConstructor
-@ToString
-@Getter
-@NoArgsConstructor
+/**
+ * List of currencies.
+ *
+ * @author Kristel Talimaa
+ */
 public enum Currency {
 
-    EURO('€', "EUR"),
-    US_DOLLAR('$', "USD");
-
-    private char symbol;
-    private String currency;
+    EUR,
+    USD;
 
 }

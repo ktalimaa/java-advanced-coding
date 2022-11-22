@@ -1,16 +1,23 @@
 package org.sda.java19.models;
 
+import lombok.Data;
+
+import java.math.BigDecimal;
+
+/**
+ * Product model
+ *
+ * @author Kristel Talimaa
+ */
+
+@Data
 public class Product {
 
-    private String productName;
-    private double pricePerItem;
-    private double quantity;
-    private String productCategory;
-    private String currency;
+    private String name;
+    private BigDecimal price;
+    private float quantity;
+    private ProductCategory productCategory;
+    private Currency currency;
     private boolean isAvailable;
-
-
-
-
 
 }

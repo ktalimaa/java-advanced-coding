@@ -1,22 +1,17 @@
 package org.sda.java19.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+/**
+ * List of product category
+ *
+ * @author Kristel Talimaa
+ */
 
-@AllArgsConstructor
-@Getter
-@ToString
-@NoArgsConstructor
 public enum ProductCategory {
 
-    FOOD("Food"),
-    DRINKS("Drinks"),
-    CLOTHES("Clothes"),
-    SHOES("Shoes"),
-    ELECTRONICS("Electronics");
-
-    private String nameOfCategory;
+    FOOD,
+    DRINKS,
+    CLOTHES,
+    SHOES,
+    ELECTRONICS;
 
 }

@@ -26,6 +26,10 @@ package org.sda.java19;
 
          */
 
+// list for products, 10 pc min
+// scanner
+// menu, add, disp
+
 
 public class Main {
     public static void main(String[] args) {
