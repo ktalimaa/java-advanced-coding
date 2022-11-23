@@ -16,7 +16,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     public void addWarehouse(Warehouse warehouse) {
         try {
             getWarehouse();
-            throw new RuntimeException("Warehouse already exsists! Cannot add a new one.");
+            throw new RuntimeException("Warehouse already exists! Cannot add a new one.");
         } catch (WarehouseNotFoundException e) {
             Data.WAREHOUSE = warehouse;
         }

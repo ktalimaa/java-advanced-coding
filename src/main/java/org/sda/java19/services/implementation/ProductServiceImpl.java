@@ -43,12 +43,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProductByName(String name) {
-// hw, same as list product
+
     }
 
     @Override
-    public Product getProductByName(String name) {
-        return null; // hw, same as list product
+    public Product getProductByName(String name) throws WarehouseNotFoundException { // hw, same as list product
+        return null;
+
     }
 
     @Override

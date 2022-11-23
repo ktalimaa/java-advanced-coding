@@ -44,7 +44,7 @@ public interface ProductService {
      * @return Product
      */
 
-    Product getProductByName(String name);
+    Product getProductByName(String name) throws WarehouseNotFoundException;
 
     /**
      * To get a list of all products from the warehouse by a given category
