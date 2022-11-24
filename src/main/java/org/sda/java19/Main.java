@@ -2,14 +2,15 @@ package org.sda.java19;
 
 import org.sda.java19.models.*;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -76,31 +77,30 @@ public class Main {
         System.out.println("Number of tractors: " + tractorList.size());
 
         // Count how many vehicles of each brand are there
+        Map<String, Long> brandMap = carList.stream()       // can do the same with moto and tractors, when using addAll after carList, we can add moto and tractors too
+                .collect(Collectors.groupingBy(Car::getBrand, Collectors.counting()));
+        System.out.println(brandMap);
 
-        String brand1 = "Mercedes";
-        String brand2 = "BMW";
+        // Sort the cars by price
+        carList.stream()
+                .sorted(Comparator.comparing(Vehicle::getPrice))        // .sorted((car1, car2) -> car1.getPrice().compareTo(car2.getPrice()))
+                .collect(Collectors.toList())
+                .forEach(car -> System.out.println(car.toString()));
 
-        Set<String> brandList = new HashSet<>(Arrays.asList(brand1, brand2));
+        // Sort the choppers by top speed
+        // 1st filter all the vehicles whose shape is chopper
+        motorcycleList.stream()
+                .filter(motorcycle -> VehicleShape.CHOPPER.equals(motorcycle.getVehicleShape()))
+                .sorted(Comparator.comparing((Motorcycle::getTopSpeed)))
+                .collect(Collectors.toList())
+                .forEach(motorcycle -> System.out.println(motorcycle.toString()));
 
-        int wordCount = 0;
-        int totalCount = 0;
-        File text = new File("C:\\Users\\ktali\\java-advanced-coding\\src\\main\\resources\\vehicles.txt");
-        Scanner scanner = new Scanner(text);
-
-        while (scanner.hasNext()) {
-            totalCount++;
-            String word = scanner.next();
-            if (word.equals(brand1) || word.equals(brand2))
-                wordCount++;
-        }
-
-        System.out.println("Word count:  " + wordCount);
-
-
-
-
-
+        // Display each category of vehicles in separate files
+        Path carPath = Paths.get("C:\\Users\\ktali\\java-advanced-coding\\src\\main\\resources\\cars.txt");
+        Files.write(carPath, convertObjectListToStringList(Collections.singletonList(carList)), StandardOpenOption.WRITE);
+        // Another way: Files.write(carPath, carList.stream().map(Car::toString).collect(Collectors.toList()), StandardOpenOption.WRITE);
     }
+
 
     private static Float convertStringToFloat(String numberStr) {
         try {
@@ -120,12 +120,9 @@ public class Main {
         }
     }
 
-
-    // Sort the cars by price
-
-    // Sort the choppers by top speed
-
-    // Display each category of vehicles in separate files
-
-
+    private static List<String> convertObjectListToStringList(List<Object> objectsList) {
+        return objectsList.stream()
+                .map(Objects::toString)
+                .collect(Collectors.toList());
+    }
 }
