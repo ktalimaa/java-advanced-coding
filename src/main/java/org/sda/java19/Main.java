@@ -120,9 +120,9 @@ public class Main {
         }
     }
 
-    private static List<String> convertObjectListToStringList(List<Object> objectsList) {
-        return objectsList.stream()
-                .map(Objects::toString)
+    private static List<String> convertObjectListToStringList(List<Object> objectList) {
+        return objectList.stream()
+                .map(Object::toString)
                 .collect(Collectors.toList());
     }
 }
