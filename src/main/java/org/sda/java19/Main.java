@@ -9,8 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -78,6 +77,25 @@ public class Main {
 
         // Count how many vehicles of each brand are there
 
+        String brand1 = "Mercedes";
+        String brand2 = "BMW";
+
+        Set<String> brandList = new HashSet<>(Arrays.asList(brand1, brand2));
+
+        int wordCount = 0;
+        int totalCount = 0;
+        File text = new File("C:\\Users\\ktali\\java-advanced-coding\\src\\main\\resources\\vehicles.txt");
+        Scanner scanner = new Scanner(text);
+
+        while (scanner.hasNext()) {
+            totalCount++;
+            String word = scanner.next();
+            if (word.equals(brand1) || word.equals(brand2))
+                wordCount++;
+        }
+
+        System.out.println("Word count:  " + wordCount);
+
 
 
 
@@ -101,10 +119,6 @@ public class Main {
             return 0L;
         }
     }
-
-
-
-
 
 
     // Sort the cars by price
