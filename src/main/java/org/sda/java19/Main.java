@@ -1,5 +1,13 @@
 package org.sda.java19;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Personal information:
  * a. Create a file containing any personal data (name, surname, phone number).
@@ -19,72 +27,53 @@ package org.sda.java19;
 // finally print the person value
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+
+        // Download data from a file and create objects of people based on them
+
+        Path personPath = Paths.get("C:\\Users\\ktali\\java-advanced-coding\\src\\main\\java\\org\\sda\\java19\\resources\\data.txt");
+
+        List<String> fileLines = Files.readAllLines(personPath, StandardCharsets.UTF_8);
+        List<Person> personDataList = new ArrayList<>();
+
+        for (String fileLine : fileLines) {
+            String[] person = fileLine.split(", ");
+
+            switch (person[0]) {
+                case "Person":
+                    Person personWithData = new Person();
+                    personWithData.setLastName(person[1]);
+                    personWithData.setPhoneNumber(person[2]);
+                    personWithData.setAge(convertStringToInt(person[4]));
+                    personWithData.setEmail(person[5]);
+                    personWithData.setGender(MaleFemale.valueOf(person[6]));
+
+                    personDataList.add(personWithData);
+                    break;
+
+                default:
+                    System.out.println("Invalid data about person!");
+            }
+
+
+        }
 
 
 
+    }
 
+    private static Integer convertStringToInt(String numberStr) {
+        try {
+            return Integer.parseInt(numberStr);
+        } catch (Exception e) {
+            System.out.println(e.getLocalizedMessage());
+            return 0;
+        }
     }
 }
 
 /*
 
-Path vehiclePath = Paths.get("C:\\Users\\ktali\\java-advanced-coding\\src\\main\\resources\\vehicles.txt");
-
-        //File Reading
-        List<String> fileLines = Files.readAllLines(vehiclePath, StandardCharsets.UTF_8);
-        List<Car> carList = new ArrayList<>();
-        List<Motorcycle> motorcycleList = new ArrayList<>();
-        List<Tractor> tractorList = new ArrayList<>();
-        List<Bicycle> bicycleList = new ArrayList<>();
-
-        // Just to print the file which was read above
-        for (String fileLine : fileLines) {
-            String[] vehicle = fileLine.split(", ");
-
-            switch (vehicle[0]) { // Gets the first word
-                case "Car":
-                    Car car = new Car();
-                    car.setBrand(vehicle[1]);
-                    car.setModel(vehicle[2]);
-                    car.setPrice(BigDecimal.valueOf(convertStringToLong(vehicle[3])));
-                    car.setTopSpeed(convertStringToFloat(vehicle[4]));
-                    car.setVehicleTransmission(VehicleTransmission.valueOf(vehicle[5]));
-                    car.setVehicleShape(VehicleShape.valueOf(vehicle[6]));
-
-                    carList.add(car);
-                    break;
-                case "Motorcycle":
-                    Motorcycle motorcycle = new Motorcycle();
-                    motorcycle.setBrand(vehicle[1]);
-                    motorcycle.setModel(vehicle[2]);
-                    motorcycle.setPrice(BigDecimal.valueOf(convertStringToLong(vehicle[3])));
-                    motorcycle.setTopSpeed(convertStringToFloat(vehicle[4]));
-                    motorcycle.setVehicleShape(VehicleShape.valueOf(vehicle[5]));
-
-                    motorcycleList.add(motorcycle);
-                    break;
-                case "Tractor":
-                    Tractor tractor = new Tractor();
-                    tractor.setBrand(vehicle[1]);
-                    tractor.setModel(vehicle[2]);
-                    tractor.setPrice(BigDecimal.valueOf(convertStringToLong(vehicle[3])));
-                    tractor.setMaxPulledWeight(convertStringToFloat(vehicle[4]));
-
-                    tractorList.add(tractor);
-                    break;
-                case "Bicycle":
-                    Bicycle bicycle = new Bicycle();
-                    bicycle.setBrand(vehicle[1]);
-                    bicycle.setModel(vehicle[2]);
-                    bicycle.setPrice(BigDecimal.valueOf(convertStringToLong(vehicle[3])));
-
-                    bicycleList.add(bicycle);
-                    break;
-                default:
-                    System.out.println("Invalid vehicle!");
-            }
-        }
 
         // Count the number of cars, motorcycles, tractors
         System.out.println("Number of cars: " + carList.size());
@@ -142,6 +131,67 @@ Path vehiclePath = Paths.get("C:\\Users\\ktali\\java-advanced-coding\\src\\main\
     }
 }
 
+
+______
+
+Path vehiclePath = Paths.get("C:\\Users\\ktali\\java-advanced-coding\\src\\main\\resources\\vehicles.txt");
+
+        //File Reading
+        List<String> fileLines = Files.readAllLines(vehiclePath, StandardCharsets.UTF_8);
+        List<Car> carList = new ArrayList<>();
+        List<Motorcycle> motorcycleList = new ArrayList<>();
+        List<Tractor> tractorList = new ArrayList<>();
+        List<Bicycle> bicycleList = new ArrayList<>();
+
+        // Just to print the file which was read above
+        for (String fileLine : fileLines) {
+            String[] vehicle = fileLine.split(", ");
+
+            switch (vehicle[0]) { // Gets the first word
+
+
+                case "Car":
+                    Car car = new Car();
+                    car.setBrand(vehicle[1]);
+                    car.setModel(vehicle[2]);
+                    car.setPrice(BigDecimal.valueOf(convertStringToLong(vehicle[3])));
+                    car.setTopSpeed(convertStringToFloat(vehicle[4]));
+                    car.setVehicleTransmission(VehicleTransmission.valueOf(vehicle[5]));
+                    car.setVehicleShape(VehicleShape.valueOf(vehicle[6]));
+
+                    carList.add(car);
+                    break;
+                case "Motorcycle":
+                    Motorcycle motorcycle = new Motorcycle();
+                    motorcycle.setBrand(vehicle[1]);
+                    motorcycle.setModel(vehicle[2]);
+                    motorcycle.setPrice(BigDecimal.valueOf(convertStringToLong(vehicle[3])));
+                    motorcycle.setTopSpeed(convertStringToFloat(vehicle[4]));
+                    motorcycle.setVehicleShape(VehicleShape.valueOf(vehicle[5]));
+
+                    motorcycleList.add(motorcycle);
+                    break;
+                case "Tractor":
+                    Tractor tractor = new Tractor();
+                    tractor.setBrand(vehicle[1]);
+                    tractor.setModel(vehicle[2]);
+                    tractor.setPrice(BigDecimal.valueOf(convertStringToLong(vehicle[3])));
+                    tractor.setMaxPulledWeight(convertStringToFloat(vehicle[4]));
+
+                    tractorList.add(tractor);
+                    break;
+                case "Bicycle":
+                    Bicycle bicycle = new Bicycle();
+                    bicycle.setBrand(vehicle[1]);
+                    bicycle.setModel(vehicle[2]);
+                    bicycle.setPrice(BigDecimal.valueOf(convertStringToLong(vehicle[3])));
+
+                    bicycleList.add(bicycle);
+                    break;
+                default:
+                    System.out.println("Invalid vehicle!");
+            }
+        }
 
 
  */
