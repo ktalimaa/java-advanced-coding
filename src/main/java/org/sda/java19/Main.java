@@ -71,13 +71,12 @@ public class Main {
 
         int option = getOption();
 
-        // here come switch case
-
         switch (option) {
             case 0: // add a product
                 productService.addProduct(addProduct());
                 break;
             case 1: // update a product
+
 
 
         }

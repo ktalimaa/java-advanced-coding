@@ -29,21 +29,36 @@ public class ProductServiceImpl implements ProductService {
             products.add(product);
             warehouse.setProducts(products);
             warehouseService.updateWarehouse(warehouse);
-            // get the warehouse, add product, get the list of product, update the list?
         } catch (WarehouseNotFoundException warehouseNotFoundException) {
             System.out.println(warehouseNotFoundException.getLocalizedMessage());
         }
-
     }
 
+    // get the warehouse, add product, get the list of product, update the list?
     @Override
     public void updateProduct(Product product) {
 
     }
 
+    /*
+
+    public void updateWarehouse(Warehouse warehouse) {
+        try {
+            Warehouse warehouseExisting = getWarehouse();
+
+            if (warehouseExisting.getWarehouseName().equals(warehouse.getWarehouseName())) {
+                Data.WAREHOUSE = warehouse;
+            } else {
+                throw new RuntimeException("Warehouse not matching!");
+            }
+        } catch (WarehouseNotFoundException e) {
+            System.out.println(e.getLocalizedMessage());
+        }
+    }
+
+     */
     @Override
     public void deleteProductByName(String name) {
-
     }
 
     @Override
