@@ -1,4 +1,0 @@
-Kristel, Talimaa, +372 555 5555, 26, kristeltalimaa@gmail.com, FEMALE
-Martin, Põlluste, +372 515 5151, 27, martin@gmail.com, MALE
-Kursuse, Kaaslane, +372 525 5252, 25, kursusekaaslane@gmail.com, FEMALE
-Sda, Harjutus, +372 535 5353, 30, sdaharjutus@gmail.com, MALE

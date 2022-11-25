@@ -17,5 +17,4 @@ public class Person {
     private String phoneNumber;
     private int age;
     private String email;
-    private MaleFemale gender;
 }
