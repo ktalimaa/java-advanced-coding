@@ -33,31 +33,27 @@ public class Main {
 
         Path personPath = Paths.get("C:\\Users\\ktali\\java-advanced-coding\\src\\main\\resources\\data.txt");
 
-        List<String> fileLines = Files.readAllLines(personPath, StandardCharsets.UTF_8);
         List<Person> personList = new ArrayList<>();
 
-        for (String fileLine : fileLines) {
-            String[] personData = fileLine.split(", ");
+        try {
+            List<String> fileLines = Files.readAllLines(personPath, StandardCharsets.UTF_8);
 
-            switch (personData[0]) {
-                case "Person":
-                    Person person = new Person();
-                    person.setLastName(personData[1]);
-                    person.setPhoneNumber(personData[2]);
-                    person.setAge(Integer.valueOf(convertStringToInt(personData[3])));
-                    person.setEmail(personData[4]);
+            for (String fileLine : fileLines) {
+                String[] personData = fileLine.split(", ");
 
-                    personList.add(person);
-                    break;
+                Person person = new Person();
+                person.setFirstName(personData[0]);
+                person.setLastName(personData[1]);
+                person.setPhoneNumber(personData[2]);
+                person.setAge(convertStringToInt(personData[3]));
+                person.setEmail(personData[4]);
 
-                default:
-                    System.out.println("Invalid data about person!");
-
-
+                System.out.println(person.toString());
             }
 
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
     }
 
     private static Integer convertStringToInt(String numberStr) {
@@ -68,7 +64,14 @@ public class Main {
             return 0;
         }
     }
+
+
+    // Enter the created objects into ArrayList or Map (<line number>: <Person>).
+
+
 }
+
+
 
 /*
 
