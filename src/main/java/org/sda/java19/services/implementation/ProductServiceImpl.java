@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 public class ProductServiceImpl implements ProductService {
 
-    // If you need to want to add product, first you get to warehouse
+    // If you want to add product, first you get to warehouse
     private final WarehouseService warehouseService = new WarehouseServiceImpl();
 
     @Override
@@ -37,6 +37,7 @@ public class ProductServiceImpl implements ProductService {
     // get the warehouse, add product, get the list of product, update the list?
     @Override
     public void updateProduct(Product product) {
+
 
     }
 

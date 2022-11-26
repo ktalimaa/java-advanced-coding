@@ -78,19 +78,34 @@ public class Main {
             case 1: // update a product
 
 
-
         }
 
     }
 
 
-    private static int getOption() {
+    private static int getOption() {       // private static int getOption () {
 
-        Scanner scanner = new Scanner(System.in);
-        //      scanner what displays all: add, update, delete etc
-        return 0;
+        Scanner scanner = new Scanner(System.in);       // scanner what displays all: add, update, delete etc?
+        String errorMessage = "Incorrect option! Please enter again:";
+        int limit = 0;
+        int option = limit + 1;
 
+        do {
+            if (!scanner.hasNextInt()) {
+                System.out.println(errorMessage);
+                scanner.next();
+            } else {
+                option = scanner.nextInt();
+
+                if (option > limit) {
+                    System.out.println(errorMessage);
+                }
+            }
+        } while (option > limit);
+
+        return option;      // return 0?
     }
+
 
     private static Product addProduct() {
 
