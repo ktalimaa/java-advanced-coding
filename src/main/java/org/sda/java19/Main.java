@@ -1,5 +1,6 @@
 package org.sda.java19;
 
+import org.sda.java19.exceptions.WarehouseNotFoundException;
 import org.sda.java19.models.Product;
 import org.sda.java19.models.ProductCategory;
 import org.sda.java19.models.Warehouse;
@@ -10,8 +11,7 @@ import org.sda.java19.services.implementation.WarehouseServiceImpl;
 import org.sda.java19.util.Data;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Warehouse
@@ -39,14 +39,11 @@ import java.util.Scanner;
 
          */
 
-// list for products, 10 pc min
-// scanner
-// menu, add, display
-
-
 public class Main {
 
-    public static void main(String[] args) {
+    private static final Scanner SCANNER = new Scanner(System.in);
+
+    public static void main(String[] args) throws WarehouseNotFoundException {
 
         WarehouseService warehouseService = new WarehouseServiceImpl();
         Scanner scanner = new Scanner(System.in);
@@ -61,51 +58,43 @@ public class Main {
         warehouseService.addWarehouse(warehouse); // Adds new warehouse
 
         productOperations();
-
     }
 
 
-    private static void productOperations() {
+    private static void productOperations() throws WarehouseNotFoundException {
+
         ProductService productService = new ProductServiceImpl();
-        Scanner scanner = new Scanner(System.in);
 
-        int option = getOption();
+        int displayMenu = warehouseMenu();
 
-        switch (option) {
+
+        switch (displayMenu) {
             case 0: // add a product
                 productService.addProduct(addProduct());
                 break;
             case 1: // update a product
-
-
+                productService.updateProduct(updateProduct());
+                break;      // does it need break here?
+            case 2: // display products
+                productService.getAllProducts();
+                break;
+            case 3: // delete a product
+                productService.deleteProductByName(getAllProducts());
+                break;
+            case 4: // exit warehouse
+                break;
+            default:
+                System.out.println("Incorrect option, use the correct one!");
         }
-
     }
 
+    private static String getAllProducts() throws WarehouseNotFoundException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Products in the warehouse:");
+        ProductServiceImpl productService = new ProductServiceImpl();
 
-    private static int getOption() {       // private static int getOption () {
-
-        Scanner scanner = new Scanner(System.in);       // scanner what displays all: add, update, delete etc?
-        String errorMessage = "Incorrect option! Please enter again:";
-        int limit = 0;
-        int option = limit + 1;
-
-        do {
-            if (!scanner.hasNextInt()) {
-                System.out.println(errorMessage);
-                scanner.next();
-            } else {
-                option = scanner.nextInt();
-
-                if (option > limit) {
-                    System.out.println(errorMessage);
-                }
-            }
-        } while (option > limit);
-
-        return option;      // return 0?
+        return productService.getAllProducts().toString();
     }
-
 
     private static Product addProduct() {
 
@@ -119,26 +108,75 @@ public class Main {
         System.out.println("Choose a product category: " + Arrays.toString(ProductCategory.values()));
         ProductCategory productCategory = ProductCategory.valueOf(scanner.next()); // currency same way
 
-
         Product product = new Product();
         product.setName(productName);
         product.setPrice(BigDecimal.valueOf(price));
         product.setProductCategory(productCategory);
 
         return product;
+    }
 
+    private static Product updateProduct() throws WarehouseNotFoundException {       // Display all -> update
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Products in the warehouse:");
+        ProductServiceImpl productService = new ProductServiceImpl();
+        System.out.println("Choose a product to update or add another one: ");
+        System.out.println(productService.getAllProducts());
+        Product product = new Product();
+        if (product.getName().equals(scanner.next())) {
+            product.setName(scanner.next());
+            product.setQuantity(scanner.nextFloat());
+            product.setPrice(BigDecimal.valueOf(scanner.nextLong()));
+            product.setProductCategory(ProductCategory.valueOf(scanner.next()));
+        }
+        return (Product) List.of(product);
+    }
+
+    private static String deleteProductByName() throws WarehouseNotFoundException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the product to delete:");
+        String productName = scanner.next();
+
+        return productName;
+    }
+
+    private static int warehouseMenu() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("---------------");
+        System.out.println("WAREHOUSE MENU:");
+        System.out.println("---------------");
+
+        List<String> warehouseMenu = List.of("Add a product", "Update product list", "Display all products", "Delete a product", "Exit");
+
+        for (int i = 0; i < warehouseMenu.size(); i++) {
+            System.out.println(i + 1 + ". " + warehouseMenu.get(i));
+        }
+        System.out.println("Choose an option from above: ");
+        return SCANNER.nextInt();
 
     }
 
-    /*
 
-    private static Product updateProduct() {
-        //Need to display all the products and then ask user to which product to update.
+    private static int getOption(int limit) {
 
+        Scanner scanner = new Scanner(System.in);
+        String errorMessage = "Incorrect option! Please enter again:";
+        int option = limit + 1;
 
+        do {
+            if (!scanner.hasNextInt()) {
+                System.out.println(errorMessage);
+                scanner.next();
+            } else {
+                option = scanner.nextInt();     // correct input
+
+                if (option > limit) {
+                    System.out.println(errorMessage);
+                }
+            }
+        } while (option > limit);
+
+        return option;
     }
-
-
-     */
-
 }
