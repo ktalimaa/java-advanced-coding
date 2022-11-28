@@ -10,6 +10,7 @@ import org.sda.java19.services.WarehouseService;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -41,42 +42,42 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void updateProduct(Product product) {
         try {
-            Scanner scanner = new Scanner(System.in);
             Warehouse warehouse = warehouseService.getWarehouse();
-            List<Product> products = warehouse.getProducts();
-            products.add(product);
-            warehouse.setProducts(products);
-            product.setName(scanner.next());
-            product.setPrice(BigDecimal.valueOf(scanner.nextLong()));
-            product.setQuantity(scanner.nextFloat());
-            product.setProductCategory(ProductCategory.valueOf(scanner.next()));
-            product.setCurrency(Currency.valueOf(scanner.next()));
-            product.setAvailable(scanner.nextBoolean());
-            warehouseService.updateWarehouse(warehouse);
+            Optional<Product> productOptional = getProductByName(product.getName());
+
+            if (productOptional.isEmpty()) {
+                System.out.printf("The product(name=%s) is not found!%n", product.getName());
+            } else {
+                deleteProductByName((product.getName()));
+                addProduct(product);
+            }
         } catch (WarehouseNotFoundException warehouseNotFoundException) {
             System.out.println(warehouseNotFoundException.getLocalizedMessage());
         }
     }
 
     @Override
-    public void deleteProductByName(String name) {
-        try {
-            Warehouse warehouse = warehouseService.getWarehouse();
-            List<Product> products = warehouse.getProducts();
-            products.remove(name);
-            warehouse.setProducts(products);
-            warehouseService.updateWarehouse(warehouse);
-        } catch (WarehouseNotFoundException warehouseNotFoundException) {
-            System.out.println(warehouseNotFoundException.getLocalizedMessage());
+    public void deleteProductByName(String name) throws WarehouseNotFoundException {
+
+        for (Product product : getAllProducts()) {
+
         }
+       List<Product> productList = getAllProducts().stream()
+               .peek(product -> {
+                   if (product.getName().equals(name)) {
+                       product.setAvailable(false);
+                   }
+               }).toList();
+        Warehouse warehouse = warehouseService.getWarehouse();
+        warehouse.setProducts(productList);
+        warehouseService.updateWarehouse(warehouse);
     }
 
     @Override
-    public Product getProductByName(String name) throws WarehouseNotFoundException { // hw, same as list product
-        Scanner scanner = new Scanner(System.in);
-        return (Product) getAllProducts().stream()
-                .filter(product -> product.getName().equals(scanner.nextLine()))
-                .collect(Collectors.toList());
+    public Optional<Product> getProductByName(String name) throws WarehouseNotFoundException { // hw, same as list product
+        return getAllProducts().stream()
+                .filter(product -> product.getName().equals(name))
+                .findFirst();
     }
 
     @Override
@@ -88,6 +89,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getAllProducts() throws WarehouseNotFoundException {
-        return warehouseService.getWarehouse().getProducts();
+        return warehouseService.getWarehouse().getProducts().stream()
+                .filter(Product::isAvailable)
+                .collect(Collectors.toList());
     }
 }

@@ -68,6 +68,19 @@ public class Main {
         int displayMenu = warehouseMenu();
 
 
+        /*
+
+        take shopping cart exercise
+         diplaycartmenu
+         getmenuoption, display like adding prod, II update prod, III display prod - use same getmenuoption in warehouse too
+
+         based on this, do the operations
+        getproducttocart
+
+
+         */
+
+
         switch (displayMenu) {
             case 0: // add a product
                 productService.addProduct(addProduct());
@@ -75,17 +88,28 @@ public class Main {
             case 1: // update a product
                 productService.updateProduct(updateProduct());
                 break;      // does it need break here?
-            case 2: // display products
-                productService.getAllProducts();
+            case 2: // delete products
+                productService.deleteProductByName(deleteProduct());
                 break;
-            case 3: // delete a product
-                productService.deleteProductByName(getAllProducts());
+            case 3:
+                displayAllProducts(productService.getAllProducts());
                 break;
-            case 4: // exit warehouse
+            case 4: // display summary (like inventory)
+                break;
+            case 5: // sum of products and prices
                 break;
             default:
                 System.out.println("Incorrect option, use the correct one!");
         }
+    }
+
+    private static void displayAllProducts(List<Product> products) {
+        products.forEach(System.out::println);
+    }
+
+    private static String deleteProduct() {
+        // Display all the products and then ask user which product he wants to delte.
+        return null;
     }
 
     private static String getAllProducts() throws WarehouseNotFoundException {

@@ -6,6 +6,7 @@ import org.sda.java19.models.ProductCategory;
 
 import java.time.Period;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Product service will handle all product operations.
@@ -35,7 +36,7 @@ public interface ProductService {
      * @param name name of the product
      */
 
-    void deleteProductByName(String name);
+    void deleteProductByName(String name) throws WarehouseNotFoundException;
 
     /**
      * To get a product by its name from a warehouse
@@ -44,7 +45,7 @@ public interface ProductService {
      * @return Product
      */
 
-    Product getProductByName(String name) throws WarehouseNotFoundException;
+    public Optional<Product> getProductByName(String name) throws WarehouseNotFoundException;
 
     /**
      * To get a list of all products from the warehouse by a given category
