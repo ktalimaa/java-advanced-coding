@@ -38,7 +38,6 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    // get the warehouse, add product, get the list of product, update the list?
     @Override
     public void updateProduct(Product product) {
         try {

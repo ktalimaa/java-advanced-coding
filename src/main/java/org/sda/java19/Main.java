@@ -3,6 +3,7 @@ package org.sda.java19;
 import org.sda.java19.exceptions.WarehouseNotFoundException;
 import org.sda.java19.models.Product;
 import org.sda.java19.models.ProductCategory;
+import org.sda.java19.models.ProductLine;
 import org.sda.java19.models.Warehouse;
 import org.sda.java19.services.ProductService;
 import org.sda.java19.services.WarehouseService;

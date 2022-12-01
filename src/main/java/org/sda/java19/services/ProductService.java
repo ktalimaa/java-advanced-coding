@@ -64,7 +64,6 @@ public interface ProductService {
 
     List<Product> getAllProducts() throws WarehouseNotFoundException; // All products
 
-
 }
 
 // static use - static use, assign some data, but we cannot use to return the values
