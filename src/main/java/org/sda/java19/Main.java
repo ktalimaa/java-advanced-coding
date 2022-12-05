@@ -1,13 +1,12 @@
 package org.sda.java19;
 
+import org.sda.java19.exceptions.MaximumNumberOfStudentsReached;
 import org.sda.java19.models.Group;
 import org.sda.java19.models.Student;
 import org.sda.java19.models.Trainer;
 
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -52,75 +51,18 @@ sort, filter, map, peek if using streams
 
  */
 public class Main {
-    public static void main(String[] args) {
+
+    private static final int MAXIMUM_ALLOWED_STUDENTS = 5;
+
+
+    public static void main(String[] args) throws MaximumNumberOfStudentsReached {
 
         List<Student> studentList = getInitialStudents();
         List<Trainer> trainerList = getInitialTrainers();
         List<Group> groupList = getInitialGroups();
 
-        assignStudentsToGroup(groupList);
-
-        List<Student> studentsInGroup = getInitialStudents();
-        Collections.shuffle(studentList);
-        studentsInGroup.stream()
-                .collect(Collectors.groupingBy(Student:: toString))
-                .values()
-                .stream()
-                .map(x -> x.stream().map(Objects::toString)).collect(Collectors.toList())
-                .forEach(System.out::println);
-
-        if(studentsInGroup.size() <= 5) {
-            assignStudentsToGroup(groupList);
-        }
-        System.out.println(groupList);
-
-
-        /*
-
-        } catch (MaximumNumberOfStudentsReached maximumNumberOfStudentsReached) {
-        System.out.println(maximumNumberOfStudentsReached.getLocalizedMessage());
-    }
-
-    _________
-
-
-          groupList.add(new Group(Arrays.asList(assignStudentsToGroup(1)));
-
-         --------------
-
-        Collections.shuffle(studentList);
-        Map<String, List<Student>> grouping = (Map<String, List<Student>>) IntStream.range(0, studentList.size())
-                .boxed()
-                .collect(Collectors.groupingBy(i -> i % numberOfGroups))
-                .values()
-                .stream()
-                .map(x -> x.studentList::get).collect(Collectors.toList()));
-
-        System.out.println(grouping);
-
-
-           Map<String, List<Student>> grouping = studentList.stream()
-                .collect(Collectors.groupingBy(w -> w.getFirstName()));
-
-        System.out.println(grouping);
-
-        ----------
-
-        final int numberOfGroups = 4;
-
-        Collections.shuffle(studentList);
-        List<List<String>> groups = IntStream.range(0, studentList.size())
-                .boxed()
-                .collect(Collectors.groupingBy(i -> i % numberOfGroups))
-                .values()
-                .stream()
-                .map(x -> x.stream().map(studentList::get)).collect(Collectors.toList()))
-                .collect(Collectors.toList());
-
-        groups.forEach(System.out::println);
-
-         */
-
+        assignStudentsToGroup(groupList, studentList);
+        assignTrainerToGroup(groupList, trainerList);
     }
 
     public static List<Student> getInitialStudents() {
@@ -221,7 +163,7 @@ public class Main {
         student15.setDateOfBirth(LocalDate.of(1996, 4, 16));
         student15.setHasPreviousJavaKnowledge(true);
 
-        return List.of(student, student1, student2, student3, student4, student5, student6, student7, student8, student9, student10, student11, student12, student13, student14, student15);
+        return new LinkedList<>(List.of(student, student1, student2, student3, student4, student5, student6, student7, student8, student9, student10, student11, student12, student13, student14, student15));
     }
 
     public static List<Trainer> getInitialTrainers() {
@@ -251,26 +193,122 @@ public class Main {
 
         Group group1 = new Group();
         group1.setGroupName("Java19Remote");
-        group1.setTrainer(getInitialTrainers().get(0));
+        // group1.setTrainer(getInitialTrainers().get(0));
 
         Group group2 = new Group();
         group2.setGroupName("Java20Remote");
-        group2.setTrainer(getInitialTrainers().get(1));
+        // group2.setTrainer(getInitialTrainers().get(1));
 
         Group group3 = new Group();
         group3.setGroupName("Java21Remote");
-        group3.setTrainer(getInitialTrainers().get(2));
+        // group3.setTrainer(getInitialTrainers().get(2));
 
         Group group4 = new Group();
         group4.setGroupName("Java22Remote");
-        group4.setTrainer(getInitialTrainers().get(1));
+        // group4.setTrainer(getInitialTrainers().get(1));
 
         return List.of(group1, group2, group3, group4);
     }
 
-    private static void assignStudentsToGroup(List<Group> groupList) {
+    private static void assignStudentsToGroup(List<Group> groupList, List<Student> studentList) throws MaximumNumberOfStudentsReached {
 
+        // one group holds max 5 student
+        // 3-4 persons per group, get students randomly and remove those students form list who are already assigned to some group
+        LinkedList<Student> studentLinkedList = new LinkedList<>(studentList);      // converting arraylist to linked list (with linked list, is possible to add or delete easily)
+        for (Group group : groupList) {
+            List<Student> students = new ArrayList<>();
 
+            for (int i = 0; i <= 4; i++) {
+                if (students.size() >= MAXIMUM_ALLOWED_STUDENTS) {
+                    throw new MaximumNumberOfStudentsReached(group.getGroupName());
+                }
 
+                Random random = new Random();
+                int nextStudentIndex = random.nextInt(studentLinkedList.size());      // if list is 15, it will get random index from 15 (taking from studentList and adding to students)
+                students.add(studentLinkedList.get(nextStudentIndex));         // creating student from list
+                studentLinkedList.remove(nextStudentIndex);       // then there will be no duplicates
+            }
+            group.setStudentsList(students);
+        }
     }
+
+    private static void assignTrainerToGroup(List<Group> groupList, List<Trainer> trainerList) {
+        for (Group group : groupList) {         //  no need here for for-loop, because we assign only 1 trainer to group
+
+            Random random = new Random();
+            int nextTrainerIndex = random.nextInt(trainerList.size());      // get the trainer
+            group.setTrainer(trainerList.get(nextTrainerIndex));
+        }
+    }
+
+
 }
+
+
+
+
+
+        /*
+
+
+ List<Student> studentsInGroup = getInitialStudents();
+        Collections.shuffle(studentList);
+        studentsInGroup.stream()
+                .collect(Collectors.groupingBy(Student:: toString))
+                .values()
+                .stream()
+                .map(x -> x.stream().map(Objects::toString)).collect(Collectors.toList())
+                .forEach(System.out::println);
+
+        if(studentsInGroup.size() <= 5) {
+            assignStudentsToGroup(groupList);
+        }
+        System.out.println(groupList);
+
+
+____________
+
+        } catch (MaximumNumberOfStudentsReached maximumNumberOfStudentsReached) {
+        System.out.println(maximumNumberOfStudentsReached.getLocalizedMessage());
+    }
+
+    _________
+
+
+          groupList.add(new Group(Arrays.asList(assignStudentsToGroup(1)));
+
+         --------------
+
+        Collections.shuffle(studentList);
+        Map<String, List<Student>> grouping = (Map<String, List<Student>>) IntStream.range(0, studentList.size())
+                .boxed()
+                .collect(Collectors.groupingBy(i -> i % numberOfGroups))
+                .values()
+                .stream()
+                .map(x -> x.studentList::get).collect(Collectors.toList()));
+
+        System.out.println(grouping);
+
+
+           Map<String, List<Student>> grouping = studentList.stream()
+                .collect(Collectors.groupingBy(w -> w.getFirstName()));
+
+        System.out.println(grouping);
+
+        ----------
+
+        final int numberOfGroups = 4;
+
+        Collections.shuffle(studentList);
+        List<List<String>> groups = IntStream.range(0, studentList.size())
+                .boxed()
+                .collect(Collectors.groupingBy(i -> i % numberOfGroups))
+                .values()
+                .stream()
+                .map(x -> x.stream().map(studentList::get)).collect(Collectors.toList()))
+                .collect(Collectors.toList());
+
+        groups.forEach(System.out::println);
+
+         */
+
