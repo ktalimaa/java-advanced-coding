@@ -1,11 +1,9 @@
 package org.sda.java19;
 
-import org.sda.java19.exceptions.MaximumNumberOfStudentsReached;
 import org.sda.java19.models.Group;
 import org.sda.java19.models.Student;
 import org.sda.java19.models.Trainer;
 
-import javax.xml.crypto.Data;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
