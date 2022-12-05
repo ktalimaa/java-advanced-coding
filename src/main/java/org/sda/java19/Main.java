@@ -2,6 +2,7 @@ package org.sda.java19;
 
 import org.sda.java19.exceptions.MaximumNumberOfStudentsReached;
 import org.sda.java19.models.Group;
+import org.sda.java19.models.Person;
 import org.sda.java19.models.Student;
 import org.sda.java19.models.Trainer;
 
@@ -31,12 +32,13 @@ import java.util.stream.Collectors;
  * Store all students in a list; all groups in a list; all trainers in a list;
  * Assign a trainer to each group
  * Assign 2-3 students to each group
- * <p>
  * Ensure the fact that a group will only have distinct students (How would you do that?) (each group has only unique students)
  * Ensure the fact that a group will only have a maximum of 5 students; When you try to add a 6th one throw an MaximumNumberOfStudentsReached exception
  * Display all students in a group sorted alphabetically by lastName // for all display ex use streams
  * Display the group with the maximum number of students
  * Display all students younger than 25, from all groups
+ *
+ * HW last four:
  * Display all students grouped by trainer that teaches to them (eg. Trainer1 - stud1, stud3, stud4; Trainer2 - stud2, stud 10) - regardless of the group they're part of (If you were to store this information in a data structure what would you use?)
  * Display all students with previous java knowledge
  * Display the group with the highest number of students with no previous java knowledge
@@ -63,6 +65,12 @@ public class Main {
 
         assignStudentsToGroup(groupList, studentList);
         assignTrainerToGroup(groupList, trainerList);
+
+        Tasks tasks = new Tasks();
+        tasks.sortByLastName(groupList);
+        // tasks.displayGroupWithMaxStudents(groupList);
+        tasks.sortByLastName(groupList);
+
     }
 
     public static List<Student> getInitialStudents() {
@@ -223,10 +231,12 @@ public class Main {
                     throw new MaximumNumberOfStudentsReached(group.getGroupName());
                 }
 
-                Random random = new Random();
-                int nextStudentIndex = random.nextInt(studentLinkedList.size());      // if list is 15, it will get random index from 15 (taking from studentList and adding to students)
-                students.add(studentLinkedList.get(nextStudentIndex));         // creating student from list
-                studentLinkedList.remove(nextStudentIndex);       // then there will be no duplicates
+                if (!studentLinkedList.isEmpty()) {      // or studentLinkedList.size() > 0
+                    Random random = new Random();
+                    int nextStudentIndex = random.nextInt(studentLinkedList.size());      // if list is 15, it will get random index from 15 (taking from studentList and adding to students)
+                    students.add(studentLinkedList.get(nextStudentIndex));         // creating student from list
+                    studentLinkedList.remove(nextStudentIndex);       // then there will be no duplicates
+                }
             }
             group.setStudentsList(students);
         }
